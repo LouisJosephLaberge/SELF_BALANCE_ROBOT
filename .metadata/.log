@@ -1,0 +1,34 @@
+!SESSION 2024-07-23 16:21:10.813 -----------------------------------------------
+eclipse.buildId=Version 1.16.0
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_CA
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-07-23 16:21:24.233
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-07-23 16:21:24.240
+!MESSAGE Log4j2 initialized with config file C:\Users\jlabe\Desktop\MCU PROJECTS\SELF_BALANCING_ROBOT\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-07-23 16:21:26.689
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2024-07-23 16:22:28.490 -----------------------------------------------
+eclipse.buildId=Version 1.16.0
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_CA
+Framework arguments:  C:\Users\jlabe\Desktop\MCU PROJECTS\SELF_BALANCING_ROBOT\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\jlabe\Desktop\MCU PROJECTS\SELF_BALANCING_ROBOT\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-07-23 16:22:36.648
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-07-23 16:22:36.649
+!MESSAGE Log4j2 initialized with config file C:\Users\jlabe\Desktop\MCU PROJECTS\SELF_BALANCING_ROBOT\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-07-23 16:22:39.054
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.core.jobs 2 2 2024-07-23 16:22:53.363
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.ui.internal.Workbench$39

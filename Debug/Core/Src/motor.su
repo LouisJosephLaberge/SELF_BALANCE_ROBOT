@@ -1,0 +1,2 @@
+../Core/Src/motor.c:11:6:motor_init	8	static
+../Core/Src/motor.c:16:6:motor_requestMovement	24	static
