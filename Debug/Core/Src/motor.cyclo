@@ -1,2 +1,2 @@
-../Core/Src/motor.c:11:6:motor_init	1
-../Core/Src/motor.c:16:6:motor_requestMovement	5
+../Core/Src/motor.c:11:6:motor_init	3
+../Core/Src/motor.c:17:6:motor_requestMovement	8

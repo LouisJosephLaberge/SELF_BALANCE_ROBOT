@@ -14,6 +14,7 @@ enum Motor
 {
 	LEFT = 0,
 	RIGHT = 1,
+	BOTH = 2,
 
 	MOTOR_COUNT
 };
