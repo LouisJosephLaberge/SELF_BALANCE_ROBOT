@@ -21,6 +21,8 @@ enum Motor
 
 bool motor_init();
 
+void motor_test();
+
 void motor_requestMovement(int8_t speed, uint8_t motor);
 
 #endif /* INC_MOTOR_H_ */

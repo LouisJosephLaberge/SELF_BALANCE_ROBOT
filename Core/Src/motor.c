@@ -14,6 +14,52 @@ bool motor_init()
 			&& HAL_OK == HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
 }
 
+void motor_test()
+{
+	static uint8_t test_motor_idx = 0;
+
+	switch(test_motor_idx)
+	{
+		case 0:
+		{
+			motor_requestMovement(30, LEFT);
+			test_motor_idx++;
+			break;
+		}
+		case 1:
+		{
+			motor_requestMovement(-30, LEFT);
+			test_motor_idx++;
+			break;
+		}
+		case 2:
+		{
+			motor_requestMovement(30, RIGHT);
+			test_motor_idx++;
+			break;
+		}
+		case 3:
+		{
+			motor_requestMovement(-30, RIGHT);
+			test_motor_idx++;
+			break;
+		}
+		case 4:
+		{
+			motor_requestMovement(30, BOTH);
+			test_motor_idx++;
+			break;
+		}
+		case 5:
+		{
+			motor_requestMovement(-30, BOTH);
+			test_motor_idx = 0;
+			break;
+		}
+	}
+	HAL_Delay(2000);
+}
+
 void motor_requestMovement(int8_t speed, uint8_t motor)
 {
 	uint8_t abs_speed = abs(speed);

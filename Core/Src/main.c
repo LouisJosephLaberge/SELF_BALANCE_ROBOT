@@ -101,15 +101,18 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  // Send Hello message to UART to test transmission
   if(HAL_UART_Transmit(&huart1, (uint8_t*)hello_msg, strlen(hello_msg), HAL_MAX_DELAY) != HAL_OK)
   {
 	  Error_Handler();
   }
-  delay(1000000);
-//  MPU6050_Init();
-  bool ok_motor = motor_init();
 
-  uint8_t test_motor_idx = 0;
+  //Init IMU
+  if(!MPU6050_Init()) Error_Handler();
+
+  //Init both motors
+  if(!motor_init()) Error_Handler();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -119,58 +122,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//	MPU6050_GetAcc(acc_buff);
-//	MPU6050_GetGyro(gyro_buff);
-
-//	char msg[200];
-//	sprintf(msg,"ACCX : %d ACCY : %d ACCZ : %d GYRX : %d GYRY : %d GYRZ : %d \n\r",acc_buff[0],acc_buff[1],acc_buff[2],gyro_buff[0],gyro_buff[1],gyro_buff[2]);
-//    sprintf(msg, "Allo comment ca va la bine\n\r");
-//	uint16_t gyro_z = gyro_buff[2];
-//	sprintf(msg, "GYRO Z : %hu \n\r", gyro_z);
-//	if(HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY) != HAL_OK)
-//	{
-//		Error_Handler();
-//	}
-	switch(test_motor_idx)
-	{
-		case 0:
-		{
-			motor_requestMovement(30, LEFT);
-			test_motor_idx++;
-			break;
-		}
-		case 1:
-		{
-			motor_requestMovement(-30, LEFT);
-			test_motor_idx++;
-			break;
-		}
-		case 2:
-		{
-			motor_requestMovement(30, RIGHT);
-			test_motor_idx++;
-			break;
-		}
-		case 3:
-		{
-			motor_requestMovement(-30, RIGHT);
-			test_motor_idx++;
-			break;
-		}
-		case 4:
-		{
-			motor_requestMovement(30, BOTH);
-			test_motor_idx++;
-			break;
-		}
-		case 5:
-		{
-			motor_requestMovement(-30, BOTH);
-			test_motor_idx = 0;
-			break;
-		}
-	}
-	HAL_Delay(2000);
+	motor_test();
   }
   /* USER CODE END 3 */
 }

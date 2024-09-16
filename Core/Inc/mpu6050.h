@@ -36,7 +36,7 @@
 extern I2C_HandleTypeDef hi2c1;
 extern UART_HandleTypeDef huart1;
 
-void MPU6050_Init(void);
+bool MPU6050_Init(void);
 void MPU6050_GetAcc(uint16_t* acc_buff);
 void MPU6050_GetGyro(uint16_t* gyro_buff);
 
