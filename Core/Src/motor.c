@@ -8,13 +8,13 @@
 
 extern TIM_HandleTypeDef htim2;
 
-bool motor_init()
+bool motorInit()
 {
 	return HAL_OK == HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1)
 			&& HAL_OK == HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
 }
 
-void motor_test()
+void motorTest()
 {
 	static uint8_t test_motor_idx = 0;
 
@@ -22,37 +22,37 @@ void motor_test()
 	{
 		case 0:
 		{
-			motor_requestMovement(30, LEFT);
+			motorRequestMovement(30, LEFT);
 			test_motor_idx++;
 			break;
 		}
 		case 1:
 		{
-			motor_requestMovement(-30, LEFT);
+			motorRequestMovement(-30, LEFT);
 			test_motor_idx++;
 			break;
 		}
 		case 2:
 		{
-			motor_requestMovement(30, RIGHT);
+			motorRequestMovement(30, RIGHT);
 			test_motor_idx++;
 			break;
 		}
 		case 3:
 		{
-			motor_requestMovement(-30, RIGHT);
+			motorRequestMovement(-30, RIGHT);
 			test_motor_idx++;
 			break;
 		}
 		case 4:
 		{
-			motor_requestMovement(30, BOTH);
+			motorRequestMovement(30, BOTH);
 			test_motor_idx++;
 			break;
 		}
 		case 5:
 		{
-			motor_requestMovement(-30, BOTH);
+			motorRequestMovement(-30, BOTH);
 			test_motor_idx = 0;
 			break;
 		}
@@ -60,7 +60,7 @@ void motor_test()
 	HAL_Delay(2000);
 }
 
-void motor_requestMovement(int8_t speed, uint8_t motor)
+void motorRequestMovement(int8_t speed, uint8_t motor)
 {
 	uint8_t abs_speed = abs(speed);
 	uint32_t ccr_value = (abs_speed * htim2.Init.Period)/100;

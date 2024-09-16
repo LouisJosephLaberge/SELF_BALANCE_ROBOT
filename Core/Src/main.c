@@ -108,10 +108,10 @@ int main(void)
   }
 
   //Init IMU
-  if(!MPU6050_Init()) Error_Handler();
+  if(!mpu6050Init()) Error_Handler();
 
   //Init both motors
-  if(!motor_init()) Error_Handler();
+  if(!motorInit()) Error_Handler();
 
   /* USER CODE END 2 */
 
@@ -122,7 +122,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	motor_test();
+	motorTest();
   }
   /* USER CODE END 3 */
 }

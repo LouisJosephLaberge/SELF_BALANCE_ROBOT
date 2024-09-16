@@ -2,7 +2,7 @@
  * mpu6050.h
  *
  *  Created on: Apr 8, 2024
- *      Author: Utilisateur
+ *      Author: jlabe
  */
 
 #ifndef INC_MPU6050_H_
@@ -36,8 +36,8 @@
 extern I2C_HandleTypeDef hi2c1;
 extern UART_HandleTypeDef huart1;
 
-bool MPU6050_Init(void);
-void MPU6050_GetAcc(uint16_t* acc_buff);
-void MPU6050_GetGyro(uint16_t* gyro_buff);
+bool mpu6050Init(void);
+void mpu6050GetAcc(uint16_t* acc_buff);
+void mpu6050GetGyro(uint16_t* gyro_buff);
 
 #endif /* INC_MPU6050_H_ */

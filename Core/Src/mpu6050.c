@@ -2,12 +2,12 @@
  * mpu6050.c
  *
  *  Created on: Apr 8, 2024
- *      Author: Utilisateur
+ *      Author: jlabe
  */
 
 #include "mpu6050.h"
 
-bool MPU6050_Init(void)
+bool mpu6050Init(void)
 {
 	//Check if device is ready
 	char msg[200];
@@ -87,7 +87,7 @@ bool MPU6050_Init(void)
 	return true;
 }
 
-void MPU6050_GetAcc(uint16_t* acc_buff)
+void mpu6050GetAcc(uint16_t* acc_buff)
 {
 	uint8_t reg_buff[6] = {0,0,0,0,0,0};
 
@@ -101,7 +101,7 @@ void MPU6050_GetAcc(uint16_t* acc_buff)
 	acc_buff[2] = ((uint16_t) reg_buff[4] << 8) | (uint16_t) reg_buff[5];
 }
 
-void MPU6050_GetGyro(uint16_t* gyro_buff)
+void mpu6050GetGyro(uint16_t* gyro_buff)
 {
 	uint8_t reg_buff[6] = {0,0,0,0,0,0};
 

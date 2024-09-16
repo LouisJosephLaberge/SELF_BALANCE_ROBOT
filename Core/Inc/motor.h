@@ -19,10 +19,10 @@ enum Motor
 	MOTOR_COUNT
 };
 
-bool motor_init();
+bool motorInit();
 
-void motor_test();
+void motorTest();
 
-void motor_requestMovement(int8_t speed, uint8_t motor);
+void motorRequestMovement(int8_t speed, uint8_t motor);
 
 #endif /* INC_MOTOR_H_ */

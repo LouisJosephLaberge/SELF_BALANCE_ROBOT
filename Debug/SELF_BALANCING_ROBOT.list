@@ -35,17 +35,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_rnglists 00000bf4  00000000  00000000  000187f8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0001890d  00000000  00000000  000193ec  2**0
+ 16 .debug_macro  0000245f  00000000  00000000  000193ec  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00012efd  00000000  00000000  00031cf9  2**0
+ 17 .debug_line   00012efd  00000000  00000000  0001b84b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0008ce7c  00000000  00000000  00044bf6  2**0
+ 18 .debug_str    0008ce76  00000000  00000000  0002e748  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000d1a72  2**0
+ 19 .comment      00000043  00000000  00000000  000bb5be  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004514  00000000  00000000  000d1ab8  2**2
+ 20 .debug_frame  00004514  00000000  00000000  000bb604  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000067  00000000  00000000  000d5fcc  2**0
+ 21 .debug_line_str 00000067  00000000  00000000  000bfb18  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -143,8 +143,8 @@ int main(void)
   }
 
   //Init IMU
-  if(!MPU6050_Init()) Error_Handler();
- 8000198:	f000 faba 	bl	8000710 <MPU6050_Init>
+  if(!mpu6050Init()) Error_Handler();
+ 8000198:	f000 faba 	bl	8000710 <mpu6050Init>
  800019c:	4603      	mov	r3, r0
  800019e:	f083 0301 	eor.w	r3, r3, #1
  80001a2:	b2db      	uxtb	r3, r3
@@ -153,8 +153,8 @@ int main(void)
  80001a8:	f000 f94a 	bl	8000440 <Error_Handler>
 
   //Init both motors
-  if(!motor_init()) Error_Handler();
- 80001ac:	f000 f94e 	bl	800044c <motor_init>
+  if(!motorInit()) Error_Handler();
+ 80001ac:	f000 f94e 	bl	800044c <motorInit>
  80001b0:	4603      	mov	r3, r0
  80001b2:	f083 0301 	eor.w	r3, r3, #1
  80001b6:	b2db      	uxtb	r3, r3
@@ -166,8 +166,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	motor_test();
- 80001c0:	f000 f95e 	bl	8000480 <motor_test>
+	motorTest();
+ 80001c0:	f000 f95e 	bl	8000480 <motorTest>
  80001c4:	e7fc      	b.n	80001c0 <main+0x64>
  80001c6:	bf00      	nop
  80001c8:	20000000 	.word	0x20000000
@@ -646,31 +646,31 @@ __STATIC_FORCEINLINE void __disable_irq(void)
  8000448:	bf00      	nop
  800044a:	e7fd      	b.n	8000448 <Error_Handler+0x8>
 
-0800044c <motor_init>:
+0800044c <motorInit>:
 #include "motor.h"
 
 extern TIM_HandleTypeDef htim2;
 
-bool motor_init()
+bool motorInit()
 {
  800044c:	b580      	push	{r7, lr}
  800044e:	af00      	add	r7, sp, #0
 	return HAL_OK == HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1)
  8000450:	2100      	movs	r1, #0
- 8000452:	480a      	ldr	r0, [pc, #40]	@ (800047c <motor_init+0x30>)
+ 8000452:	480a      	ldr	r0, [pc, #40]	@ (800047c <motorInit+0x30>)
  8000454:	f002 fdc6 	bl	8002fe4 <HAL_TIM_PWM_Start>
  8000458:	4603      	mov	r3, r0
 			&& HAL_OK == HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
  800045a:	2b00      	cmp	r3, #0
- 800045c:	d108      	bne.n	8000470 <motor_init+0x24>
+ 800045c:	d108      	bne.n	8000470 <motorInit+0x24>
  800045e:	2104      	movs	r1, #4
- 8000460:	4806      	ldr	r0, [pc, #24]	@ (800047c <motor_init+0x30>)
+ 8000460:	4806      	ldr	r0, [pc, #24]	@ (800047c <motorInit+0x30>)
  8000462:	f002 fdbf 	bl	8002fe4 <HAL_TIM_PWM_Start>
  8000466:	4603      	mov	r3, r0
  8000468:	2b00      	cmp	r3, #0
- 800046a:	d101      	bne.n	8000470 <motor_init+0x24>
+ 800046a:	d101      	bne.n	8000470 <motorInit+0x24>
  800046c:	2301      	movs	r3, #1
- 800046e:	e000      	b.n	8000472 <motor_init+0x26>
+ 800046e:	e000      	b.n	8000472 <motorInit+0x26>
  8000470:	2300      	movs	r3, #0
  8000472:	f003 0301 	and.w	r3, r3, #1
  8000476:	b2db      	uxtb	r3, r3
@@ -679,20 +679,20 @@ bool motor_init()
  800047a:	bd80      	pop	{r7, pc}
  800047c:	200000ec 	.word	0x200000ec
 
-08000480 <motor_test>:
+08000480 <motorTest>:
 
-void motor_test()
+void motorTest()
 {
  8000480:	b580      	push	{r7, lr}
  8000482:	af00      	add	r7, sp, #0
 	static uint8_t test_motor_idx = 0;
 
 	switch(test_motor_idx)
- 8000484:	4b2d      	ldr	r3, [pc, #180]	@ (800053c <motor_test+0xbc>)
+ 8000484:	4b2d      	ldr	r3, [pc, #180]	@ (800053c <motorTest+0xbc>)
  8000486:	781b      	ldrb	r3, [r3, #0]
  8000488:	2b05      	cmp	r3, #5
- 800048a:	d851      	bhi.n	8000530 <motor_test+0xb0>
- 800048c:	a201      	add	r2, pc, #4	@ (adr r2, 8000494 <motor_test+0x14>)
+ 800048a:	d851      	bhi.n	8000530 <motorTest+0xb0>
+ 800048c:	a201      	add	r2, pc, #4	@ (adr r2, 8000494 <motorTest+0x14>)
  800048e:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
  8000492:	bf00      	nop
  8000494:	080004ad 	.word	0x080004ad
@@ -704,92 +704,92 @@ void motor_test()
 	{
 		case 0:
 		{
-			motor_requestMovement(30, LEFT);
+			motorRequestMovement(30, LEFT);
  80004ac:	2100      	movs	r1, #0
  80004ae:	201e      	movs	r0, #30
- 80004b0:	f000 f846 	bl	8000540 <motor_requestMovement>
+ 80004b0:	f000 f846 	bl	8000540 <motorRequestMovement>
 			test_motor_idx++;
- 80004b4:	4b21      	ldr	r3, [pc, #132]	@ (800053c <motor_test+0xbc>)
+ 80004b4:	4b21      	ldr	r3, [pc, #132]	@ (800053c <motorTest+0xbc>)
  80004b6:	781b      	ldrb	r3, [r3, #0]
  80004b8:	3301      	adds	r3, #1
  80004ba:	b2da      	uxtb	r2, r3
- 80004bc:	4b1f      	ldr	r3, [pc, #124]	@ (800053c <motor_test+0xbc>)
+ 80004bc:	4b1f      	ldr	r3, [pc, #124]	@ (800053c <motorTest+0xbc>)
  80004be:	701a      	strb	r2, [r3, #0]
 			break;
- 80004c0:	e036      	b.n	8000530 <motor_test+0xb0>
+ 80004c0:	e036      	b.n	8000530 <motorTest+0xb0>
 		}
 		case 1:
 		{
-			motor_requestMovement(-30, LEFT);
+			motorRequestMovement(-30, LEFT);
  80004c2:	2100      	movs	r1, #0
  80004c4:	f06f 001d 	mvn.w	r0, #29
- 80004c8:	f000 f83a 	bl	8000540 <motor_requestMovement>
+ 80004c8:	f000 f83a 	bl	8000540 <motorRequestMovement>
 			test_motor_idx++;
- 80004cc:	4b1b      	ldr	r3, [pc, #108]	@ (800053c <motor_test+0xbc>)
+ 80004cc:	4b1b      	ldr	r3, [pc, #108]	@ (800053c <motorTest+0xbc>)
  80004ce:	781b      	ldrb	r3, [r3, #0]
  80004d0:	3301      	adds	r3, #1
  80004d2:	b2da      	uxtb	r2, r3
- 80004d4:	4b19      	ldr	r3, [pc, #100]	@ (800053c <motor_test+0xbc>)
+ 80004d4:	4b19      	ldr	r3, [pc, #100]	@ (800053c <motorTest+0xbc>)
  80004d6:	701a      	strb	r2, [r3, #0]
 			break;
- 80004d8:	e02a      	b.n	8000530 <motor_test+0xb0>
+ 80004d8:	e02a      	b.n	8000530 <motorTest+0xb0>
 		}
 		case 2:
 		{
-			motor_requestMovement(30, RIGHT);
+			motorRequestMovement(30, RIGHT);
  80004da:	2101      	movs	r1, #1
  80004dc:	201e      	movs	r0, #30
- 80004de:	f000 f82f 	bl	8000540 <motor_requestMovement>
+ 80004de:	f000 f82f 	bl	8000540 <motorRequestMovement>
 			test_motor_idx++;
- 80004e2:	4b16      	ldr	r3, [pc, #88]	@ (800053c <motor_test+0xbc>)
+ 80004e2:	4b16      	ldr	r3, [pc, #88]	@ (800053c <motorTest+0xbc>)
  80004e4:	781b      	ldrb	r3, [r3, #0]
  80004e6:	3301      	adds	r3, #1
  80004e8:	b2da      	uxtb	r2, r3
- 80004ea:	4b14      	ldr	r3, [pc, #80]	@ (800053c <motor_test+0xbc>)
+ 80004ea:	4b14      	ldr	r3, [pc, #80]	@ (800053c <motorTest+0xbc>)
  80004ec:	701a      	strb	r2, [r3, #0]
 			break;
- 80004ee:	e01f      	b.n	8000530 <motor_test+0xb0>
+ 80004ee:	e01f      	b.n	8000530 <motorTest+0xb0>
 		}
 		case 3:
 		{
-			motor_requestMovement(-30, RIGHT);
+			motorRequestMovement(-30, RIGHT);
  80004f0:	2101      	movs	r1, #1
  80004f2:	f06f 001d 	mvn.w	r0, #29
- 80004f6:	f000 f823 	bl	8000540 <motor_requestMovement>
+ 80004f6:	f000 f823 	bl	8000540 <motorRequestMovement>
 			test_motor_idx++;
- 80004fa:	4b10      	ldr	r3, [pc, #64]	@ (800053c <motor_test+0xbc>)
+ 80004fa:	4b10      	ldr	r3, [pc, #64]	@ (800053c <motorTest+0xbc>)
  80004fc:	781b      	ldrb	r3, [r3, #0]
  80004fe:	3301      	adds	r3, #1
  8000500:	b2da      	uxtb	r2, r3
- 8000502:	4b0e      	ldr	r3, [pc, #56]	@ (800053c <motor_test+0xbc>)
+ 8000502:	4b0e      	ldr	r3, [pc, #56]	@ (800053c <motorTest+0xbc>)
  8000504:	701a      	strb	r2, [r3, #0]
 			break;
- 8000506:	e013      	b.n	8000530 <motor_test+0xb0>
+ 8000506:	e013      	b.n	8000530 <motorTest+0xb0>
 		}
 		case 4:
 		{
-			motor_requestMovement(30, BOTH);
+			motorRequestMovement(30, BOTH);
  8000508:	2102      	movs	r1, #2
  800050a:	201e      	movs	r0, #30
- 800050c:	f000 f818 	bl	8000540 <motor_requestMovement>
+ 800050c:	f000 f818 	bl	8000540 <motorRequestMovement>
 			test_motor_idx++;
- 8000510:	4b0a      	ldr	r3, [pc, #40]	@ (800053c <motor_test+0xbc>)
+ 8000510:	4b0a      	ldr	r3, [pc, #40]	@ (800053c <motorTest+0xbc>)
  8000512:	781b      	ldrb	r3, [r3, #0]
  8000514:	3301      	adds	r3, #1
  8000516:	b2da      	uxtb	r2, r3
- 8000518:	4b08      	ldr	r3, [pc, #32]	@ (800053c <motor_test+0xbc>)
+ 8000518:	4b08      	ldr	r3, [pc, #32]	@ (800053c <motorTest+0xbc>)
  800051a:	701a      	strb	r2, [r3, #0]
 			break;
- 800051c:	e008      	b.n	8000530 <motor_test+0xb0>
+ 800051c:	e008      	b.n	8000530 <motorTest+0xb0>
 		}
 		case 5:
 		{
-			motor_requestMovement(-30, BOTH);
+			motorRequestMovement(-30, BOTH);
  800051e:	2102      	movs	r1, #2
  8000520:	f06f 001d 	mvn.w	r0, #29
- 8000524:	f000 f80c 	bl	8000540 <motor_requestMovement>
+ 8000524:	f000 f80c 	bl	8000540 <motorRequestMovement>
 			test_motor_idx = 0;
- 8000528:	4b04      	ldr	r3, [pc, #16]	@ (800053c <motor_test+0xbc>)
+ 8000528:	4b04      	ldr	r3, [pc, #16]	@ (800053c <motorTest+0xbc>)
  800052a:	2200      	movs	r2, #0
  800052c:	701a      	strb	r2, [r3, #0]
 			break;
@@ -804,9 +804,9 @@ void motor_test()
  800053a:	bd80      	pop	{r7, pc}
  800053c:	2000017c 	.word	0x2000017c
 
-08000540 <motor_requestMovement>:
+08000540 <motorRequestMovement>:
 
-void motor_requestMovement(int8_t speed, uint8_t motor)
+void motorRequestMovement(int8_t speed, uint8_t motor)
 {
  8000540:	b580      	push	{r7, lr}
  8000542:	b084      	sub	sp, #16
@@ -824,204 +824,204 @@ void motor_requestMovement(int8_t speed, uint8_t motor)
  800055a:	73fb      	strb	r3, [r7, #15]
 	uint32_t ccr_value = (abs_speed * htim2.Init.Period)/100;
  800055c:	7bfb      	ldrb	r3, [r7, #15]
- 800055e:	4a69      	ldr	r2, [pc, #420]	@ (8000704 <motor_requestMovement+0x1c4>)
+ 800055e:	4a69      	ldr	r2, [pc, #420]	@ (8000704 <motorRequestMovement+0x1c4>)
  8000560:	68d2      	ldr	r2, [r2, #12]
  8000562:	fb02 f303 	mul.w	r3, r2, r3
- 8000566:	4a68      	ldr	r2, [pc, #416]	@ (8000708 <motor_requestMovement+0x1c8>)
+ 8000566:	4a68      	ldr	r2, [pc, #416]	@ (8000708 <motorRequestMovement+0x1c8>)
  8000568:	fba2 2303 	umull	r2, r3, r2, r3
  800056c:	095b      	lsrs	r3, r3, #5
  800056e:	60bb      	str	r3, [r7, #8]
 	switch(motor)
  8000570:	79bb      	ldrb	r3, [r7, #6]
  8000572:	2b02      	cmp	r3, #2
- 8000574:	f000 8084 	beq.w	8000680 <motor_requestMovement+0x140>
+ 8000574:	f000 8084 	beq.w	8000680 <motorRequestMovement+0x140>
  8000578:	2b02      	cmp	r3, #2
- 800057a:	f300 80bf 	bgt.w	80006fc <motor_requestMovement+0x1bc>
+ 800057a:	f300 80bf 	bgt.w	80006fc <motorRequestMovement+0x1bc>
  800057e:	2b00      	cmp	r3, #0
- 8000580:	d002      	beq.n	8000588 <motor_requestMovement+0x48>
+ 8000580:	d002      	beq.n	8000588 <motorRequestMovement+0x48>
  8000582:	2b01      	cmp	r3, #1
- 8000584:	d03e      	beq.n	8000604 <motor_requestMovement+0xc4>
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
+ 8000584:	d03e      	beq.n	8000604 <motorRequestMovement+0xc4>
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 			}
 	}
 }
- 8000586:	e0b9      	b.n	80006fc <motor_requestMovement+0x1bc>
+ 8000586:	e0b9      	b.n	80006fc <motorRequestMovement+0x1bc>
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr_value);
- 8000588:	4b5e      	ldr	r3, [pc, #376]	@ (8000704 <motor_requestMovement+0x1c4>)
+ 8000588:	4b5e      	ldr	r3, [pc, #376]	@ (8000704 <motorRequestMovement+0x1c4>)
  800058a:	681b      	ldr	r3, [r3, #0]
  800058c:	68ba      	ldr	r2, [r7, #8]
  800058e:	635a      	str	r2, [r3, #52]	@ 0x34
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr_value);
- 8000590:	4b5c      	ldr	r3, [pc, #368]	@ (8000704 <motor_requestMovement+0x1c4>)
+ 8000590:	4b5c      	ldr	r3, [pc, #368]	@ (8000704 <motorRequestMovement+0x1c4>)
  8000592:	681b      	ldr	r3, [r3, #0]
  8000594:	68ba      	ldr	r2, [r7, #8]
  8000596:	639a      	str	r2, [r3, #56]	@ 0x38
 			if(speed >= 0)
  8000598:	f997 3007 	ldrsb.w	r3, [r7, #7]
  800059c:	2b00      	cmp	r3, #0
- 800059e:	db18      	blt.n	80005d2 <motor_requestMovement+0x92>
+ 800059e:	db18      	blt.n	80005d2 <motorRequestMovement+0x92>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
  80005a0:	2201      	movs	r2, #1
  80005a2:	f44f 7180 	mov.w	r1, #256	@ 0x100
- 80005a6:	4859      	ldr	r0, [pc, #356]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80005a6:	4859      	ldr	r0, [pc, #356]	@ (800070c <motorRequestMovement+0x1cc>)
  80005a8:	f000 ff1c 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
  80005ac:	2200      	movs	r2, #0
  80005ae:	f44f 7100 	mov.w	r1, #512	@ 0x200
- 80005b2:	4856      	ldr	r0, [pc, #344]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80005b2:	4856      	ldr	r0, [pc, #344]	@ (800070c <motorRequestMovement+0x1cc>)
  80005b4:	f000 ff16 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
  80005b8:	2200      	movs	r2, #0
  80005ba:	f44f 6180 	mov.w	r1, #1024	@ 0x400
- 80005be:	4853      	ldr	r0, [pc, #332]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80005be:	4853      	ldr	r0, [pc, #332]	@ (800070c <motorRequestMovement+0x1cc>)
  80005c0:	f000 ff10 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
  80005c4:	2200      	movs	r2, #0
  80005c6:	f44f 6100 	mov.w	r1, #2048	@ 0x800
- 80005ca:	4850      	ldr	r0, [pc, #320]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80005ca:	4850      	ldr	r0, [pc, #320]	@ (800070c <motorRequestMovement+0x1cc>)
  80005cc:	f000 ff0a 	bl	80013e4 <HAL_GPIO_WritePin>
 			break;
- 80005d0:	e094      	b.n	80006fc <motor_requestMovement+0x1bc>
+ 80005d0:	e094      	b.n	80006fc <motorRequestMovement+0x1bc>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
  80005d2:	2200      	movs	r2, #0
  80005d4:	f44f 7180 	mov.w	r1, #256	@ 0x100
- 80005d8:	484c      	ldr	r0, [pc, #304]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80005d8:	484c      	ldr	r0, [pc, #304]	@ (800070c <motorRequestMovement+0x1cc>)
  80005da:	f000 ff03 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
  80005de:	2201      	movs	r2, #1
  80005e0:	f44f 7100 	mov.w	r1, #512	@ 0x200
- 80005e4:	4849      	ldr	r0, [pc, #292]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80005e4:	4849      	ldr	r0, [pc, #292]	@ (800070c <motorRequestMovement+0x1cc>)
  80005e6:	f000 fefd 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
  80005ea:	2200      	movs	r2, #0
  80005ec:	f44f 6180 	mov.w	r1, #1024	@ 0x400
- 80005f0:	4846      	ldr	r0, [pc, #280]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80005f0:	4846      	ldr	r0, [pc, #280]	@ (800070c <motorRequestMovement+0x1cc>)
  80005f2:	f000 fef7 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
  80005f6:	2200      	movs	r2, #0
  80005f8:	f44f 6100 	mov.w	r1, #2048	@ 0x800
- 80005fc:	4843      	ldr	r0, [pc, #268]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80005fc:	4843      	ldr	r0, [pc, #268]	@ (800070c <motorRequestMovement+0x1cc>)
  80005fe:	f000 fef1 	bl	80013e4 <HAL_GPIO_WritePin>
 			break;
- 8000602:	e07b      	b.n	80006fc <motor_requestMovement+0x1bc>
+ 8000602:	e07b      	b.n	80006fc <motorRequestMovement+0x1bc>
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr_value);
- 8000604:	4b3f      	ldr	r3, [pc, #252]	@ (8000704 <motor_requestMovement+0x1c4>)
+ 8000604:	4b3f      	ldr	r3, [pc, #252]	@ (8000704 <motorRequestMovement+0x1c4>)
  8000606:	681b      	ldr	r3, [r3, #0]
  8000608:	68ba      	ldr	r2, [r7, #8]
  800060a:	635a      	str	r2, [r3, #52]	@ 0x34
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr_value);
- 800060c:	4b3d      	ldr	r3, [pc, #244]	@ (8000704 <motor_requestMovement+0x1c4>)
+ 800060c:	4b3d      	ldr	r3, [pc, #244]	@ (8000704 <motorRequestMovement+0x1c4>)
  800060e:	681b      	ldr	r3, [r3, #0]
  8000610:	68ba      	ldr	r2, [r7, #8]
  8000612:	639a      	str	r2, [r3, #56]	@ 0x38
 			if(speed >= 0)
  8000614:	f997 3007 	ldrsb.w	r3, [r7, #7]
  8000618:	2b00      	cmp	r3, #0
- 800061a:	db18      	blt.n	800064e <motor_requestMovement+0x10e>
+ 800061a:	db18      	blt.n	800064e <motorRequestMovement+0x10e>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
  800061c:	2200      	movs	r2, #0
  800061e:	f44f 7180 	mov.w	r1, #256	@ 0x100
- 8000622:	483a      	ldr	r0, [pc, #232]	@ (800070c <motor_requestMovement+0x1cc>)
+ 8000622:	483a      	ldr	r0, [pc, #232]	@ (800070c <motorRequestMovement+0x1cc>)
  8000624:	f000 fede 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
  8000628:	2200      	movs	r2, #0
  800062a:	f44f 7100 	mov.w	r1, #512	@ 0x200
- 800062e:	4837      	ldr	r0, [pc, #220]	@ (800070c <motor_requestMovement+0x1cc>)
+ 800062e:	4837      	ldr	r0, [pc, #220]	@ (800070c <motorRequestMovement+0x1cc>)
  8000630:	f000 fed8 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
  8000634:	2201      	movs	r2, #1
  8000636:	f44f 6180 	mov.w	r1, #1024	@ 0x400
- 800063a:	4834      	ldr	r0, [pc, #208]	@ (800070c <motor_requestMovement+0x1cc>)
+ 800063a:	4834      	ldr	r0, [pc, #208]	@ (800070c <motorRequestMovement+0x1cc>)
  800063c:	f000 fed2 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
  8000640:	2200      	movs	r2, #0
  8000642:	f44f 6100 	mov.w	r1, #2048	@ 0x800
- 8000646:	4831      	ldr	r0, [pc, #196]	@ (800070c <motor_requestMovement+0x1cc>)
+ 8000646:	4831      	ldr	r0, [pc, #196]	@ (800070c <motorRequestMovement+0x1cc>)
  8000648:	f000 fecc 	bl	80013e4 <HAL_GPIO_WritePin>
 			break;
- 800064c:	e056      	b.n	80006fc <motor_requestMovement+0x1bc>
+ 800064c:	e056      	b.n	80006fc <motorRequestMovement+0x1bc>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
  800064e:	2200      	movs	r2, #0
  8000650:	f44f 7180 	mov.w	r1, #256	@ 0x100
- 8000654:	482d      	ldr	r0, [pc, #180]	@ (800070c <motor_requestMovement+0x1cc>)
+ 8000654:	482d      	ldr	r0, [pc, #180]	@ (800070c <motorRequestMovement+0x1cc>)
  8000656:	f000 fec5 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
  800065a:	2200      	movs	r2, #0
  800065c:	f44f 7100 	mov.w	r1, #512	@ 0x200
- 8000660:	482a      	ldr	r0, [pc, #168]	@ (800070c <motor_requestMovement+0x1cc>)
+ 8000660:	482a      	ldr	r0, [pc, #168]	@ (800070c <motorRequestMovement+0x1cc>)
  8000662:	f000 febf 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
  8000666:	2200      	movs	r2, #0
  8000668:	f44f 6180 	mov.w	r1, #1024	@ 0x400
- 800066c:	4827      	ldr	r0, [pc, #156]	@ (800070c <motor_requestMovement+0x1cc>)
+ 800066c:	4827      	ldr	r0, [pc, #156]	@ (800070c <motorRequestMovement+0x1cc>)
  800066e:	f000 feb9 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
  8000672:	2201      	movs	r2, #1
  8000674:	f44f 6100 	mov.w	r1, #2048	@ 0x800
- 8000678:	4824      	ldr	r0, [pc, #144]	@ (800070c <motor_requestMovement+0x1cc>)
+ 8000678:	4824      	ldr	r0, [pc, #144]	@ (800070c <motorRequestMovement+0x1cc>)
  800067a:	f000 feb3 	bl	80013e4 <HAL_GPIO_WritePin>
 			break;
- 800067e:	e03d      	b.n	80006fc <motor_requestMovement+0x1bc>
+ 800067e:	e03d      	b.n	80006fc <motorRequestMovement+0x1bc>
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr_value);
- 8000680:	4b20      	ldr	r3, [pc, #128]	@ (8000704 <motor_requestMovement+0x1c4>)
+ 8000680:	4b20      	ldr	r3, [pc, #128]	@ (8000704 <motorRequestMovement+0x1c4>)
  8000682:	681b      	ldr	r3, [r3, #0]
  8000684:	68ba      	ldr	r2, [r7, #8]
  8000686:	635a      	str	r2, [r3, #52]	@ 0x34
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr_value);
- 8000688:	4b1e      	ldr	r3, [pc, #120]	@ (8000704 <motor_requestMovement+0x1c4>)
+ 8000688:	4b1e      	ldr	r3, [pc, #120]	@ (8000704 <motorRequestMovement+0x1c4>)
  800068a:	681b      	ldr	r3, [r3, #0]
  800068c:	68ba      	ldr	r2, [r7, #8]
  800068e:	639a      	str	r2, [r3, #56]	@ 0x38
 			if(speed >= 0)
  8000690:	f997 3007 	ldrsb.w	r3, [r7, #7]
  8000694:	2b00      	cmp	r3, #0
- 8000696:	db18      	blt.n	80006ca <motor_requestMovement+0x18a>
+ 8000696:	db18      	blt.n	80006ca <motorRequestMovement+0x18a>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
  8000698:	2201      	movs	r2, #1
  800069a:	f44f 7180 	mov.w	r1, #256	@ 0x100
- 800069e:	481b      	ldr	r0, [pc, #108]	@ (800070c <motor_requestMovement+0x1cc>)
+ 800069e:	481b      	ldr	r0, [pc, #108]	@ (800070c <motorRequestMovement+0x1cc>)
  80006a0:	f000 fea0 	bl	80013e4 <HAL_GPIO_WritePin>
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
- 80006a4:	2200      	movs	r2, #0
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
+ 80006a4:	2201      	movs	r2, #1
  80006a6:	f44f 7100 	mov.w	r1, #512	@ 0x200
- 80006aa:	4818      	ldr	r0, [pc, #96]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80006aa:	4818      	ldr	r0, [pc, #96]	@ (800070c <motorRequestMovement+0x1cc>)
  80006ac:	f000 fe9a 	bl	80013e4 <HAL_GPIO_WritePin>
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
- 80006b0:	2201      	movs	r2, #1
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
+ 80006b0:	2200      	movs	r2, #0
  80006b2:	f44f 6180 	mov.w	r1, #1024	@ 0x400
- 80006b6:	4815      	ldr	r0, [pc, #84]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80006b6:	4815      	ldr	r0, [pc, #84]	@ (800070c <motorRequestMovement+0x1cc>)
  80006b8:	f000 fe94 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
  80006bc:	2200      	movs	r2, #0
  80006be:	f44f 6100 	mov.w	r1, #2048	@ 0x800
- 80006c2:	4812      	ldr	r0, [pc, #72]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80006c2:	4812      	ldr	r0, [pc, #72]	@ (800070c <motorRequestMovement+0x1cc>)
  80006c4:	f000 fe8e 	bl	80013e4 <HAL_GPIO_WritePin>
 }
- 80006c8:	e018      	b.n	80006fc <motor_requestMovement+0x1bc>
+ 80006c8:	e018      	b.n	80006fc <motorRequestMovement+0x1bc>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
  80006ca:	2200      	movs	r2, #0
  80006cc:	f44f 7180 	mov.w	r1, #256	@ 0x100
- 80006d0:	480e      	ldr	r0, [pc, #56]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80006d0:	480e      	ldr	r0, [pc, #56]	@ (800070c <motorRequestMovement+0x1cc>)
  80006d2:	f000 fe87 	bl	80013e4 <HAL_GPIO_WritePin>
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
- 80006d6:	2201      	movs	r2, #1
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
+ 80006d6:	2200      	movs	r2, #0
  80006d8:	f44f 7100 	mov.w	r1, #512	@ 0x200
- 80006dc:	480b      	ldr	r0, [pc, #44]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80006dc:	480b      	ldr	r0, [pc, #44]	@ (800070c <motorRequestMovement+0x1cc>)
  80006de:	f000 fe81 	bl	80013e4 <HAL_GPIO_WritePin>
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
- 80006e2:	2200      	movs	r2, #0
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
+ 80006e2:	2201      	movs	r2, #1
  80006e4:	f44f 6180 	mov.w	r1, #1024	@ 0x400
- 80006e8:	4808      	ldr	r0, [pc, #32]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80006e8:	4808      	ldr	r0, [pc, #32]	@ (800070c <motorRequestMovement+0x1cc>)
  80006ea:	f000 fe7b 	bl	80013e4 <HAL_GPIO_WritePin>
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
  80006ee:	2201      	movs	r2, #1
  80006f0:	f44f 6100 	mov.w	r1, #2048	@ 0x800
- 80006f4:	4805      	ldr	r0, [pc, #20]	@ (800070c <motor_requestMovement+0x1cc>)
+ 80006f4:	4805      	ldr	r0, [pc, #20]	@ (800070c <motorRequestMovement+0x1cc>)
  80006f6:	f000 fe75 	bl	80013e4 <HAL_GPIO_WritePin>
 }
- 80006fa:	e7ff      	b.n	80006fc <motor_requestMovement+0x1bc>
+ 80006fa:	e7ff      	b.n	80006fc <motorRequestMovement+0x1bc>
  80006fc:	bf00      	nop
  80006fe:	3710      	adds	r7, #16
  8000700:	46bd      	mov	sp, r7
@@ -1030,12 +1030,12 @@ void motor_requestMovement(int8_t speed, uint8_t motor)
  8000708:	51eb851f 	.word	0x51eb851f
  800070c:	40010800 	.word	0x40010800
 
-08000710 <MPU6050_Init>:
+08000710 <mpu6050Init>:
  */
 
 #include "mpu6050.h"
 
-bool MPU6050_Init(void)
+bool mpu6050Init(void)
 {
  8000710:	b580      	push	{r7, lr}
  8000712:	b0b8      	sub	sp, #224	@ 0xe0
@@ -1050,15 +1050,15 @@ bool MPU6050_Init(void)
  800071a:	f04f 33ff 	mov.w	r3, #4294967295
  800071e:	2201      	movs	r2, #1
  8000720:	21d0      	movs	r1, #208	@ 0xd0
- 8000722:	487c      	ldr	r0, [pc, #496]	@ (8000914 <MPU6050_Init+0x204>)
+ 8000722:	487c      	ldr	r0, [pc, #496]	@ (8000914 <mpu6050Init+0x204>)
  8000724:	f001 fb1c 	bl	8001d60 <HAL_I2C_IsDeviceReady>
  8000728:	4603      	mov	r3, r0
  800072a:	2b00      	cmp	r3, #0
- 800072c:	d001      	beq.n	8000732 <MPU6050_Init+0x22>
+ 800072c:	d001      	beq.n	8000732 <mpu6050Init+0x22>
 	{
 		return false;
  800072e:	2300      	movs	r3, #0
- 8000730:	e0eb      	b.n	800090a <MPU6050_Init+0x1fa>
+ 8000730:	e0eb      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	//RESET MODULE
 	reg_buff = 0x1<<7;
@@ -1074,15 +1074,15 @@ bool MPU6050_Init(void)
  8000744:	2301      	movs	r3, #1
  8000746:	226b      	movs	r2, #107	@ 0x6b
  8000748:	21d0      	movs	r1, #208	@ 0xd0
- 800074a:	4872      	ldr	r0, [pc, #456]	@ (8000914 <MPU6050_Init+0x204>)
+ 800074a:	4872      	ldr	r0, [pc, #456]	@ (8000914 <mpu6050Init+0x204>)
  800074c:	f000 ffa6 	bl	800169c <HAL_I2C_Mem_Write>
  8000750:	4603      	mov	r3, r0
  8000752:	2b00      	cmp	r3, #0
- 8000754:	d001      	beq.n	800075a <MPU6050_Init+0x4a>
+ 8000754:	d001      	beq.n	800075a <mpu6050Init+0x4a>
 	{
 		return false;
  8000756:	2300      	movs	r3, #0
- 8000758:	e0d7      	b.n	800090a <MPU6050_Init+0x1fa>
+ 8000758:	e0d7      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	HAL_Delay(50);
  800075a:	2032      	movs	r0, #50	@ 0x32
@@ -1099,15 +1099,15 @@ bool MPU6050_Init(void)
  800076e:	2301      	movs	r3, #1
  8000770:	226b      	movs	r2, #107	@ 0x6b
  8000772:	21d0      	movs	r1, #208	@ 0xd0
- 8000774:	4867      	ldr	r0, [pc, #412]	@ (8000914 <MPU6050_Init+0x204>)
+ 8000774:	4867      	ldr	r0, [pc, #412]	@ (8000914 <mpu6050Init+0x204>)
  8000776:	f000 ff91 	bl	800169c <HAL_I2C_Mem_Write>
  800077a:	4603      	mov	r3, r0
  800077c:	2b00      	cmp	r3, #0
- 800077e:	d001      	beq.n	8000784 <MPU6050_Init+0x74>
+ 800077e:	d001      	beq.n	8000784 <mpu6050Init+0x74>
 	{
 		return false;
  8000780:	2300      	movs	r3, #0
- 8000782:	e0c2      	b.n	800090a <MPU6050_Init+0x1fa>
+ 8000782:	e0c2      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	HAL_Delay(50);
  8000784:	2032      	movs	r0, #50	@ 0x32
@@ -1122,15 +1122,15 @@ bool MPU6050_Init(void)
  8000798:	2301      	movs	r3, #1
  800079a:	226b      	movs	r2, #107	@ 0x6b
  800079c:	21d0      	movs	r1, #208	@ 0xd0
- 800079e:	485d      	ldr	r0, [pc, #372]	@ (8000914 <MPU6050_Init+0x204>)
+ 800079e:	485d      	ldr	r0, [pc, #372]	@ (8000914 <mpu6050Init+0x204>)
  80007a0:	f001 f876 	bl	8001890 <HAL_I2C_Mem_Read>
  80007a4:	4603      	mov	r3, r0
  80007a6:	2b00      	cmp	r3, #0
- 80007a8:	d001      	beq.n	80007ae <MPU6050_Init+0x9e>
+ 80007a8:	d001      	beq.n	80007ae <mpu6050Init+0x9e>
 	{
 		return false;
  80007aa:	2300      	movs	r3, #0
- 80007ac:	e0ad      	b.n	800090a <MPU6050_Init+0x1fa>
+ 80007ac:	e0ad      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	HAL_Delay(50);
  80007ae:	2032      	movs	r0, #50	@ 0x32
@@ -1147,15 +1147,15 @@ bool MPU6050_Init(void)
  80007c2:	2301      	movs	r3, #1
  80007c4:	221c      	movs	r2, #28
  80007c6:	21d0      	movs	r1, #208	@ 0xd0
- 80007c8:	4852      	ldr	r0, [pc, #328]	@ (8000914 <MPU6050_Init+0x204>)
+ 80007c8:	4852      	ldr	r0, [pc, #328]	@ (8000914 <mpu6050Init+0x204>)
  80007ca:	f001 f861 	bl	8001890 <HAL_I2C_Mem_Read>
  80007ce:	4603      	mov	r3, r0
  80007d0:	2b00      	cmp	r3, #0
- 80007d2:	d001      	beq.n	80007d8 <MPU6050_Init+0xc8>
+ 80007d2:	d001      	beq.n	80007d8 <mpu6050Init+0xc8>
 	{
 		return false;
  80007d4:	2300      	movs	r3, #0
- 80007d6:	e098      	b.n	800090a <MPU6050_Init+0x1fa>
+ 80007d6:	e098      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	HAL_Delay(50);
  80007d8:	2032      	movs	r0, #50	@ 0x32
@@ -1175,15 +1175,15 @@ bool MPU6050_Init(void)
  80007f6:	2301      	movs	r3, #1
  80007f8:	221c      	movs	r2, #28
  80007fa:	21d0      	movs	r1, #208	@ 0xd0
- 80007fc:	4845      	ldr	r0, [pc, #276]	@ (8000914 <MPU6050_Init+0x204>)
+ 80007fc:	4845      	ldr	r0, [pc, #276]	@ (8000914 <mpu6050Init+0x204>)
  80007fe:	f000 ff4d 	bl	800169c <HAL_I2C_Mem_Write>
  8000802:	4603      	mov	r3, r0
  8000804:	2b00      	cmp	r3, #0
- 8000806:	d001      	beq.n	800080c <MPU6050_Init+0xfc>
+ 8000806:	d001      	beq.n	800080c <mpu6050Init+0xfc>
 	{
 		return false;
  8000808:	2300      	movs	r3, #0
- 800080a:	e07e      	b.n	800090a <MPU6050_Init+0x1fa>
+ 800080a:	e07e      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	HAL_Delay(50);
  800080c:	2032      	movs	r0, #50	@ 0x32
@@ -1198,15 +1198,15 @@ bool MPU6050_Init(void)
  8000820:	2301      	movs	r3, #1
  8000822:	221c      	movs	r2, #28
  8000824:	21d0      	movs	r1, #208	@ 0xd0
- 8000826:	483b      	ldr	r0, [pc, #236]	@ (8000914 <MPU6050_Init+0x204>)
+ 8000826:	483b      	ldr	r0, [pc, #236]	@ (8000914 <mpu6050Init+0x204>)
  8000828:	f001 f832 	bl	8001890 <HAL_I2C_Mem_Read>
  800082c:	4603      	mov	r3, r0
  800082e:	2b00      	cmp	r3, #0
- 8000830:	d001      	beq.n	8000836 <MPU6050_Init+0x126>
+ 8000830:	d001      	beq.n	8000836 <mpu6050Init+0x126>
 	{
 		return false;
  8000832:	2300      	movs	r3, #0
- 8000834:	e069      	b.n	800090a <MPU6050_Init+0x1fa>
+ 8000834:	e069      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	HAL_Delay(50);
  8000836:	2032      	movs	r0, #50	@ 0x32
@@ -1214,11 +1214,11 @@ bool MPU6050_Init(void)
 	if(reg_buff != (MPU6050_AFS_SEL_4G << MPU_6050_ACCEL_CONFIG_AFS_SEL))
  800083c:	79fb      	ldrb	r3, [r7, #7]
  800083e:	2b08      	cmp	r3, #8
- 8000840:	d015      	beq.n	800086e <MPU6050_Init+0x15e>
+ 8000840:	d015      	beq.n	800086e <mpu6050Init+0x15e>
 	{
 		sprintf(msg,"MPU6050_ACCEL_CONFIG NOT SET CORRECTLY\n\r");
  8000842:	f107 0308 	add.w	r3, r7, #8
- 8000846:	4934      	ldr	r1, [pc, #208]	@ (8000918 <MPU6050_Init+0x208>)
+ 8000846:	4934      	ldr	r1, [pc, #208]	@ (8000918 <mpu6050Init+0x208>)
  8000848:	4618      	mov	r0, r3
  800084a:	f003 fdbf 	bl	80043cc <siprintf>
 		HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
@@ -1229,11 +1229,11 @@ bool MPU6050_Init(void)
  800085a:	b29a      	uxth	r2, r3
  800085c:	f107 0108 	add.w	r1, r7, #8
  8000860:	f04f 33ff 	mov.w	r3, #4294967295
- 8000864:	482d      	ldr	r0, [pc, #180]	@ (800091c <MPU6050_Init+0x20c>)
+ 8000864:	482d      	ldr	r0, [pc, #180]	@ (800091c <mpu6050Init+0x20c>)
  8000866:	f002 ffdd 	bl	8003824 <HAL_UART_Transmit>
 		return false;
  800086a:	2300      	movs	r3, #0
- 800086c:	e04d      	b.n	800090a <MPU6050_Init+0x1fa>
+ 800086c:	e04d      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	HAL_Delay(50);
  800086e:	2032      	movs	r0, #50	@ 0x32
@@ -1255,15 +1255,15 @@ bool MPU6050_Init(void)
  8000886:	2301      	movs	r3, #1
  8000888:	221b      	movs	r2, #27
  800088a:	21d0      	movs	r1, #208	@ 0xd0
- 800088c:	4821      	ldr	r0, [pc, #132]	@ (8000914 <MPU6050_Init+0x204>)
+ 800088c:	4821      	ldr	r0, [pc, #132]	@ (8000914 <mpu6050Init+0x204>)
  800088e:	f000 ff05 	bl	800169c <HAL_I2C_Mem_Write>
  8000892:	4603      	mov	r3, r0
  8000894:	2b00      	cmp	r3, #0
- 8000896:	d001      	beq.n	800089c <MPU6050_Init+0x18c>
+ 8000896:	d001      	beq.n	800089c <mpu6050Init+0x18c>
 	{
 		return false;
  8000898:	2300      	movs	r3, #0
- 800089a:	e036      	b.n	800090a <MPU6050_Init+0x1fa>
+ 800089a:	e036      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	HAL_Delay(50);
  800089c:	2032      	movs	r0, #50	@ 0x32
@@ -1281,15 +1281,15 @@ bool MPU6050_Init(void)
  80008b4:	2301      	movs	r3, #1
  80008b6:	221b      	movs	r2, #27
  80008b8:	21d0      	movs	r1, #208	@ 0xd0
- 80008ba:	4816      	ldr	r0, [pc, #88]	@ (8000914 <MPU6050_Init+0x204>)
+ 80008ba:	4816      	ldr	r0, [pc, #88]	@ (8000914 <mpu6050Init+0x204>)
  80008bc:	f000 ffe8 	bl	8001890 <HAL_I2C_Mem_Read>
  80008c0:	4603      	mov	r3, r0
  80008c2:	2b00      	cmp	r3, #0
- 80008c4:	d001      	beq.n	80008ca <MPU6050_Init+0x1ba>
+ 80008c4:	d001      	beq.n	80008ca <mpu6050Init+0x1ba>
 	{
 		return false;
  80008c6:	2300      	movs	r3, #0
- 80008c8:	e01f      	b.n	800090a <MPU6050_Init+0x1fa>
+ 80008c8:	e01f      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	HAL_Delay(50);
  80008ca:	2032      	movs	r0, #50	@ 0x32
@@ -1297,11 +1297,11 @@ bool MPU6050_Init(void)
 	if(reg_buff != 8)
  80008d0:	79fb      	ldrb	r3, [r7, #7]
  80008d2:	2b08      	cmp	r3, #8
- 80008d4:	d015      	beq.n	8000902 <MPU6050_Init+0x1f2>
+ 80008d4:	d015      	beq.n	8000902 <mpu6050Init+0x1f2>
 	{
 		sprintf(msg,"MPU6050_GYRO_CONFIG NOT SET CORRECTLY\n\r");
  80008d6:	f107 0308 	add.w	r3, r7, #8
- 80008da:	4911      	ldr	r1, [pc, #68]	@ (8000920 <MPU6050_Init+0x210>)
+ 80008da:	4911      	ldr	r1, [pc, #68]	@ (8000920 <mpu6050Init+0x210>)
  80008dc:	4618      	mov	r0, r3
  80008de:	f003 fd75 	bl	80043cc <siprintf>
 		HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
@@ -1312,11 +1312,11 @@ bool MPU6050_Init(void)
  80008ee:	b29a      	uxth	r2, r3
  80008f0:	f107 0108 	add.w	r1, r7, #8
  80008f4:	f04f 33ff 	mov.w	r3, #4294967295
- 80008f8:	4808      	ldr	r0, [pc, #32]	@ (800091c <MPU6050_Init+0x20c>)
+ 80008f8:	4808      	ldr	r0, [pc, #32]	@ (800091c <mpu6050Init+0x20c>)
  80008fa:	f002 ff93 	bl	8003824 <HAL_UART_Transmit>
 		return false;
  80008fe:	2300      	movs	r3, #0
- 8000900:	e003      	b.n	800090a <MPU6050_Init+0x1fa>
+ 8000900:	e003      	b.n	800090a <mpu6050Init+0x1fa>
 	}
 	HAL_Delay(50);
  8000902:	2032      	movs	r0, #50	@ 0x32
