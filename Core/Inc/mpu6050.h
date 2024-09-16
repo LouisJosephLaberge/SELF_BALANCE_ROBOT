@@ -36,8 +36,22 @@
 extern I2C_HandleTypeDef hi2c1;
 extern UART_HandleTypeDef huart1;
 
+typedef struct
+{
+	int16_t x;
+	int16_t y;
+	int16_t z;
+}Acc_Handle;
+
+typedef struct
+{
+	int16_t x;
+	int16_t y;
+	int16_t z;
+}Gyro_Handle;
+
 bool mpu6050Init(void);
-void mpu6050GetAcc(uint16_t* acc_buff);
-void mpu6050GetGyro(uint16_t* gyro_buff);
+void mpu6050GetAcc(Acc_Handle* acc_buff);
+void mpu6050GetGyro(Gyro_Handle* gyro_buff);
 
 #endif /* INC_MPU6050_H_ */

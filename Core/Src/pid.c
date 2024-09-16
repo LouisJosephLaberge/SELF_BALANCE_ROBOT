@@ -20,7 +20,7 @@ bool pidInit(uint32_t p, uint32_t i, uint32_t d)
 
 void pidApply()
 {
-	uint32_t error = (uint32_t)GYRO_REFERENCE_VALUE - filterGetValue();
+	uint32_t error = (uint32_t)GYRO_REFERENCE_VALUE - filterGetPitchAngle();
 	uint32_t dt = HAL_GetTick() - hpid.timestamp;
 
 	hpid.timestamp = HAL_GetTick();

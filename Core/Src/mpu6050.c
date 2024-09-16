@@ -87,7 +87,7 @@ bool mpu6050Init(void)
 	return true;
 }
 
-void mpu6050GetAcc(uint16_t* acc_buff)
+void mpu6050GetAcc(Acc_Handle* acc_buff)
 {
 	uint8_t reg_buff[6] = {0,0,0,0,0,0};
 
@@ -96,12 +96,12 @@ void mpu6050GetAcc(uint16_t* acc_buff)
 		Error_Handler();
 	}
 
-	acc_buff[0] = ((uint16_t) reg_buff[0] << 8) | (uint16_t) reg_buff[1];
-	acc_buff[1] = ((uint16_t) reg_buff[2] << 8) | (uint16_t) reg_buff[3];
-	acc_buff[2] = ((uint16_t) reg_buff[4] << 8) | (uint16_t) reg_buff[5];
+	acc_buff->x = ((uint16_t) reg_buff[0] << 8) | (uint16_t) reg_buff[1];
+	acc_buff->y = ((uint16_t) reg_buff[2] << 8) | (uint16_t) reg_buff[3];
+	acc_buff->z = ((uint16_t) reg_buff[4] << 8) | (uint16_t) reg_buff[5];
 }
 
-void mpu6050GetGyro(uint16_t* gyro_buff)
+void mpu6050GetGyro(Gyro_Handle* gyro_buff)
 {
 	uint8_t reg_buff[6] = {0,0,0,0,0,0};
 
@@ -110,7 +110,7 @@ void mpu6050GetGyro(uint16_t* gyro_buff)
 		Error_Handler();
 	}
 
-	gyro_buff[0] = ((uint16_t) reg_buff[0] << 8) | (uint16_t) reg_buff[1];
-	gyro_buff[1] = ((uint16_t) reg_buff[2] << 8) | (uint16_t) reg_buff[3];
-	gyro_buff[2] = ((uint16_t) reg_buff[4] << 8) | (uint16_t) reg_buff[5];
+	gyro_buff->x = ((uint16_t) reg_buff[0] << 8) | (uint16_t) reg_buff[1];
+	gyro_buff->y = ((uint16_t) reg_buff[2] << 8) | (uint16_t) reg_buff[3];
+	gyro_buff->z = ((uint16_t) reg_buff[4] << 8) | (uint16_t) reg_buff[5];
 }
