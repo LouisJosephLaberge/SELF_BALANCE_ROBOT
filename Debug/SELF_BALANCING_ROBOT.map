@@ -60,6 +60,10 @@ C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.external
                               ./Core/Src/filter.o (__aeabi_dmul)
 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
                               ./Core/Src/filter.o (__aeabi_dadd)
+C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
+                              ./Core/Src/filter.o (__aeabi_ddiv)
+C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
+                              ./Core/Src/filter.o (__aeabi_d2iz)
 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixunsdfsi.o)
                               ./Core/Src/filter.o (__aeabi_d2uiz)
 
@@ -147,16 +151,16 @@ Discarded input sections
  .text.filterGetPitchAngle
                 0x00000000       0xd4 ./Core/Src/filter.o
  .text.filterLpAcc
-                0x00000000       0x32 ./Core/Src/filter.o
+                0x00000000       0x98 ./Core/Src/filter.o
  .text.filterHpGyro
-                0x00000000       0x32 ./Core/Src/filter.o
+                0x00000000       0xd4 ./Core/Src/filter.o
  .debug_info    0x00000000      0x267 ./Core/Src/filter.o
  .debug_abbrev  0x00000000      0x119 ./Core/Src/filter.o
  .debug_aranges
                 0x00000000       0x30 ./Core/Src/filter.o
  .debug_rnglists
-                0x00000000       0x20 ./Core/Src/filter.o
- .debug_macro   0x00000000      0x31d ./Core/Src/filter.o
+                0x00000000       0x22 ./Core/Src/filter.o
+ .debug_macro   0x00000000      0x323 ./Core/Src/filter.o
  .debug_macro   0x00000000      0xaa8 ./Core/Src/filter.o
  .debug_macro   0x00000000      0x221 ./Core/Src/filter.o
  .debug_macro   0x00000000       0x2e ./Core/Src/filter.o
@@ -220,10 +224,10 @@ Discarded input sections
  .debug_macro   0x00000000       0x29 ./Core/Src/filter.o
  .debug_macro   0x00000000       0x22 ./Core/Src/filter.o
  .debug_macro   0x00000000       0x70 ./Core/Src/filter.o
- .debug_line    0x00000000      0x967 ./Core/Src/filter.o
- .debug_str     0x00000000    0x88a2d ./Core/Src/filter.o
+ .debug_line    0x00000000      0x982 ./Core/Src/filter.o
+ .debug_str     0x00000000    0x88a34 ./Core/Src/filter.o
  .comment       0x00000000       0x44 ./Core/Src/filter.o
- .debug_frame   0x00000000       0x88 ./Core/Src/filter.o
+ .debug_frame   0x00000000       0x80 ./Core/Src/filter.o
  .ARM.attributes
                 0x00000000       0x2d ./Core/Src/filter.o
  .group         0x00000000        0xc ./Core/Src/main.o
@@ -685,6 +689,7 @@ Discarded input sections
  .group         0x00000000        0xc ./Core/Src/pid.o
  .group         0x00000000        0xc ./Core/Src/pid.o
  .group         0x00000000        0xc ./Core/Src/pid.o
+ .group         0x00000000        0xc ./Core/Src/pid.o
  .text          0x00000000        0x0 ./Core/Src/pid.o
  .data          0x00000000        0x0 ./Core/Src/pid.o
  .bss           0x00000000        0x0 ./Core/Src/pid.o
@@ -698,7 +703,7 @@ Discarded input sections
                 0x00000000       0x28 ./Core/Src/pid.o
  .debug_rnglists
                 0x00000000       0x1a ./Core/Src/pid.o
- .debug_macro   0x00000000      0x32c ./Core/Src/pid.o
+ .debug_macro   0x00000000      0x32b ./Core/Src/pid.o
  .debug_macro   0x00000000      0xaa8 ./Core/Src/pid.o
  .debug_macro   0x00000000      0x221 ./Core/Src/pid.o
  .debug_macro   0x00000000       0x2e ./Core/Src/pid.o
@@ -762,9 +767,10 @@ Discarded input sections
  .debug_macro   0x00000000       0x29 ./Core/Src/pid.o
  .debug_macro   0x00000000       0x22 ./Core/Src/pid.o
  .debug_macro   0x00000000       0x70 ./Core/Src/pid.o
+ .debug_macro   0x00000000       0x10 ./Core/Src/pid.o
  .debug_macro   0x00000000       0x16 ./Core/Src/pid.o
  .debug_line    0x00000000      0x971 ./Core/Src/pid.o
- .debug_str     0x00000000    0x88a22 ./Core/Src/pid.o
+ .debug_str     0x00000000    0x88a29 ./Core/Src/pid.o
  .comment       0x00000000       0x44 ./Core/Src/pid.o
  .debug_frame   0x00000000       0x5c ./Core/Src/pid.o
  .ARM.attributes
@@ -3534,6 +3540,18 @@ Discarded input sections
  .debug_frame   0x00000000       0xac C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
  .ARM.attributes
                 0x00000000       0x1d C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
+ .text          0x00000000      0x424 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
+ .data          0x00000000        0x0 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
+ .bss           0x00000000        0x0 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
+ .debug_frame   0x00000000       0x50 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
+ .ARM.attributes
+                0x00000000       0x1d C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
+ .text          0x00000000       0x50 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
+ .data          0x00000000        0x0 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
+ .bss           0x00000000        0x0 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
+ .debug_frame   0x00000000       0x24 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
+ .ARM.attributes
+                0x00000000       0x1d C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
  .text          0x00000000       0x40 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixunsdfsi.o)
  .data          0x00000000        0x0 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixunsdfsi.o)
  .bss           0x00000000        0x0 C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixunsdfsi.o)

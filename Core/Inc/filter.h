@@ -10,6 +10,8 @@
 
 #include "main.h"
 
+#define G 9.81
+
 typedef struct
 {
 	uint32_t last_pitch_angle;
