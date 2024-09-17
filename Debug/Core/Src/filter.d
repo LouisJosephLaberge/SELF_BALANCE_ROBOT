@@ -25,7 +25,7 @@ Core/Src/filter.o: ../Core/Src/filter.c ../Core/Inc/filter.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
- ../Core/Inc/mpu6050.h ../Core/Inc/motor.h
+ ../Core/Inc/mpu6050.h
 ../Core/Inc/filter.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
@@ -55,4 +55,3 @@ Core/Src/filter.o: ../Core/Src/filter.c ../Core/Inc/filter.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
 ../Core/Inc/mpu6050.h:
-../Core/Inc/motor.h:

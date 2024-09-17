@@ -9,6 +9,7 @@
 #define INC_FILTER_H_
 
 #include "main.h"
+#include "mpu6050.h"
 
 #define G 9.81
 
@@ -16,12 +17,12 @@ typedef struct
 {
 	uint32_t last_pitch_angle;
 	uint16_t timestamp;
-}Filter_Handle;
+}Filter_Handler;
 
-uint32_t filterGetPitchAngle();
+int32_t filterGetPitchAngle();
 
-void filterLpAcc(Acc_Handle* acc_raw, Acc_Handle* acc_filtered);
+void filterLpAcc(Acc_Handler* acc_raw, Acc_Handler* acc_filtered);
 
-void filterHpGyro(Gyro_Handle* gyro_raw, Gyro_Handle* gyro_filtered);
+void filterHpGyro(Gyro_Handler* gyro_raw, Gyro_Handler* gyro_filtered);
 
 #endif /* INC_FILTER_H_ */

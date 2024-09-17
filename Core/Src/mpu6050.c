@@ -87,7 +87,7 @@ bool mpu6050Init(void)
 	return true;
 }
 
-void mpu6050GetAcc(Acc_Handle* acc_buff)
+void mpu6050GetAcc(Acc_Handler* acc_buff)
 {
 	uint8_t reg_buff[6] = {0,0,0,0,0,0};
 
@@ -101,7 +101,7 @@ void mpu6050GetAcc(Acc_Handle* acc_buff)
 	acc_buff->z = ((uint16_t) reg_buff[4] << 8) | (uint16_t) reg_buff[5];
 }
 
-void mpu6050GetGyro(Gyro_Handle* gyro_buff)
+void mpu6050GetGyro(Gyro_Handler* gyro_buff)
 {
 	uint8_t reg_buff[6] = {0,0,0,0,0,0};
 

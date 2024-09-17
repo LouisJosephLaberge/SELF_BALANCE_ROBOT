@@ -36,8 +36,6 @@ extern "C" {
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "mpu6050.h"
-#include "motor.h"
 
 /* USER CODE END Includes */
 

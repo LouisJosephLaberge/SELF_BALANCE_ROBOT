@@ -1,3 +1,3 @@
-../Core/Src/filter.c:12:10:filterGetPitchAngle	1
+../Core/Src/filter.c:12:9:filterGetPitchAngle	1
 ../Core/Src/filter.c:36:6:filterLpAcc	1
 ../Core/Src/filter.c:43:6:filterHpGyro	1

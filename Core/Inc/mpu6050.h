@@ -5,10 +5,10 @@
  *      Author: jlabe
  */
 
+#include "main.h"
+
 #ifndef INC_MPU6050_H_
 #define INC_MPU6050_H_
-
-#include "main.h"
 
 #define MPU6050_ADDR ((0b1101000 << 1) +0)
 
@@ -41,17 +41,17 @@ typedef struct
 	int16_t x;
 	int16_t y;
 	int16_t z;
-}Acc_Handle;
+}Acc_Handler;
 
 typedef struct
 {
 	int16_t x;
 	int16_t y;
 	int16_t z;
-}Gyro_Handle;
+}Gyro_Handler;
 
 bool mpu6050Init(void);
-void mpu6050GetAcc(Acc_Handle* acc_buff);
-void mpu6050GetGyro(Gyro_Handle* gyro_buff);
+void mpu6050GetAcc(Acc_Handler* acc_buff);
+void mpu6050GetGyro(Gyro_Handler* gyro_buff);
 
 #endif /* INC_MPU6050_H_ */

@@ -7,6 +7,7 @@
 #include "motor.h"
 
 extern TIM_HandleTypeDef htim2;
+extern Pid_Handler hpid;
 
 bool motorInit()
 {
@@ -121,4 +122,11 @@ void motorRequestMovement(int8_t speed, uint8_t motor)
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 			}
 	}
+}
+
+void motorProcess()
+{
+	pidApply();
+	int8_t speed_pid_output = hpid.output / PID_MAX * 100;
+	motorRequestMovement(speed_pid_output, BOTH);
 }

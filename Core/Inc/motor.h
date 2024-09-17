@@ -9,6 +9,7 @@
 #define INC_MOTOR_H_
 
 #include "main.h"
+#include "pid.h"
 
 enum Motor
 {
@@ -24,5 +25,7 @@ bool motorInit();
 void motorTest();
 
 void motorRequestMovement(int8_t speed, uint8_t motor);
+
+void motorProcess();
 
 #endif /* INC_MOTOR_H_ */

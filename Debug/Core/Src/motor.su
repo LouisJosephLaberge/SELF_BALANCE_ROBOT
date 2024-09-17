@@ -1,3 +1,4 @@
-../Core/Src/motor.c:11:6:motorInit	8	static
-../Core/Src/motor.c:17:6:motorTest	8	static
-../Core/Src/motor.c:63:6:motorRequestMovement	24	static
+../Core/Src/motor.c:12:6:motorInit	8	static
+../Core/Src/motor.c:18:6:motorTest	8	static
+../Core/Src/motor.c:64:6:motorRequestMovement	24	static
+../Core/Src/motor.c:127:6:motorProcess	16	static

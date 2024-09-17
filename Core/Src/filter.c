@@ -7,14 +7,14 @@
 
 #include "filter.h"
 
-static Filter_Handle hfilter;
+static Filter_Handler hfilter;
 
-uint32_t filterGetPitchAngle()
+int32_t filterGetPitchAngle()
 {
-	Acc_Handle acc_raw, acc_filtered;
-	Gyro_Handle gyro_raw, gyro_filtered;
+	Acc_Handler acc_raw, acc_filtered;
+	Gyro_Handler gyro_raw, gyro_filtered;
 
-	uint32_t pitch_angle = 0;
+	int32_t pitch_angle = 0;
 	uint32_t dt = HAL_GetTick() - hfilter.timestamp;
 	hfilter.timestamp = HAL_GetTick();
 
@@ -33,14 +33,14 @@ uint32_t filterGetPitchAngle()
 	return pitch_angle;
 }
 
-void filterLpAcc(Acc_Handle* acc_raw, Acc_Handle* acc_filtered)
+void filterLpAcc(Acc_Handler* acc_raw, Acc_Handler* acc_filtered)
 {
 	acc_filtered->x = acc_raw->x / 32.8;
 	acc_filtered->y = acc_raw->y / 32.8;
 	acc_filtered->z = acc_raw->z / 32.8;
 }
 
-void filterHpGyro(Gyro_Handle* gyro_raw, Gyro_Handle* gyro_filtered)
+void filterHpGyro(Gyro_Handler* gyro_raw, Gyro_Handler* gyro_filtered)
 {
 	gyro_filtered->x = gyro_raw->x * G / 16384;
 	gyro_filtered->y = gyro_raw->y * G / 16384;

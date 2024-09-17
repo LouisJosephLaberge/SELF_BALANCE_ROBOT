@@ -11,7 +11,7 @@
 #include "main.h"
 #include "filter.h"
 
-#define GYRO_REFERENCE_VALUE 0
+#define ANGLE_REFERENCE_VALUE 0
 #define INTEGRAL_GAIN_MAX 1000
 #define PID_MAX 1000
 
@@ -25,6 +25,8 @@ typedef struct
 	uint32_t timestamp;
 	int16_t output;
 }Pid_Handler;
+
+extern Pid_Handler hpid;
 
 bool pidInit(uint32_t p, uint32_t i, uint32_t d);
 
