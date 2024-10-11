@@ -24,7 +24,7 @@ bool motorInit();
 
 void motorTest();
 
-void motorRequestMovement(int8_t speed, uint8_t motor);
+void motorRequestMovementSpeed(int8_t speed, uint8_t motor);
 
 void motorProcess();
 

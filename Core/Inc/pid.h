@@ -12,8 +12,8 @@
 #include "filter.h"
 
 #define ANGLE_REFERENCE_VALUE 0
-#define INTEGRAL_GAIN_MAX 1000
-#define PID_MAX 1000
+#define INTEGRAL_GAIN_MAX 100
+#define PID_MAX 20
 
 typedef struct
 {
@@ -24,6 +24,7 @@ typedef struct
 	int32_t error_sum;
 	uint32_t timestamp;
 	int16_t output;
+	bool change;
 }Pid_Handler;
 
 extern Pid_Handler hpid;

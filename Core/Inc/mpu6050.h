@@ -12,6 +12,7 @@
 
 #define MPU6050_ADDR ((0b1101000 << 1) +0)
 
+#define MPU6050_SMPRT_DIV_REG		25
 #define MPU6050_CONFIG_REG 			26
 #define MPU6050_GYRO_CONFIG_REG 	27
 #define MPU6050_ACCEL_CONFIG_REG 	28
@@ -38,16 +39,22 @@ extern UART_HandleTypeDef huart1;
 
 typedef struct
 {
-	int16_t x;
-	int16_t y;
-	int16_t z;
+	int16_t raw_x;
+	int16_t raw_y;
+	int16_t raw_z;
+	float   filtered_x;
+	float   filtered_y;
+	float   filtered_z;
 }Acc_Handler;
 
 typedef struct
 {
-	int16_t x;
-	int16_t y;
-	int16_t z;
+	int16_t raw_x;
+	int16_t raw_y;
+	int16_t raw_z;
+	float   filtered_x;
+	float   filtered_y;
+	float   filtered_z;
 }Gyro_Handler;
 
 bool mpu6050Init(void);

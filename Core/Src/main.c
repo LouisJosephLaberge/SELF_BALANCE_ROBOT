@@ -112,10 +112,14 @@ int main(void)
   }
 
   //Init IMU
+  HAL_Delay(500);
   if(!mpu6050Init()) Error_Handler();
 
   //Init both motors
   if(!motorInit()) Error_Handler();
+
+  //Init PID controller
+  if(!pidInit(1, 0, 0)) Error_Handler();
 
   /* USER CODE END 2 */
 

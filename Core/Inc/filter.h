@@ -12,17 +12,21 @@
 #include "mpu6050.h"
 
 #define G 9.81
+#define ALPHA (0.9934)
+#define GYRO_LP 5
+#define ACC_HP  15
+#define PI (3.141592654)
 
 typedef struct
 {
-	uint32_t last_pitch_angle;
+	float last_roll_angle;
 	uint16_t timestamp;
 }Filter_Handler;
 
-int32_t filterGetPitchAngle();
+float filterGetRollAngle();
 
-void filterLpAcc(Acc_Handler* acc_raw, Acc_Handler* acc_filtered);
+void filterLpAcc(Acc_Handler* acc);
 
-void filterHpGyro(Gyro_Handler* gyro_raw, Gyro_Handler* gyro_filtered);
+void filterHpGyro(Gyro_Handler* gyro);
 
 #endif /* INC_FILTER_H_ */

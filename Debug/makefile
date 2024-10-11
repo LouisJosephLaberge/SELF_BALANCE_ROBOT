@@ -61,7 +61,7 @@ main-build: SELF_BALANCING_ROBOT.elf secondary-outputs
 
 # Tool invocations
 SELF_BALANCING_ROBOT.elf SELF_BALANCING_ROBOT.map: $(OBJS) $(USER_OBJS) C:\Users\jlabe\Desktop\MCU\ PROJECTS\SELF_BALANCING_ROBOT\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "SELF_BALANCING_ROBOT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\jlabe\Desktop\MCU PROJECTS\SELF_BALANCING_ROBOT\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SELF_BALANCING_ROBOT.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "SELF_BALANCING_ROBOT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\jlabe\Desktop\MCU PROJECTS\SELF_BALANCING_ROBOT\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SELF_BALANCING_ROBOT.map" -Wl,--gc-sections -static -u_print_float --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

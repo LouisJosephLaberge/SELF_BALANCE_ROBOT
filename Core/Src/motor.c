@@ -23,37 +23,37 @@ void motorTest()
 	{
 		case 0:
 		{
-			motorRequestMovement(30, LEFT);
+			motorRequestMovementSpeed(35, LEFT);
 			test_motor_idx++;
 			break;
 		}
 		case 1:
 		{
-			motorRequestMovement(-30, LEFT);
+			motorRequestMovementSpeed(-35, LEFT);
 			test_motor_idx++;
 			break;
 		}
 		case 2:
 		{
-			motorRequestMovement(30, RIGHT);
+			motorRequestMovementSpeed(35, RIGHT);
 			test_motor_idx++;
 			break;
 		}
 		case 3:
 		{
-			motorRequestMovement(-30, RIGHT);
+			motorRequestMovementSpeed(-35, RIGHT);
 			test_motor_idx++;
 			break;
 		}
 		case 4:
 		{
-			motorRequestMovement(30, BOTH);
+			motorRequestMovementSpeed(35, BOTH);
 			test_motor_idx++;
 			break;
 		}
 		case 5:
 		{
-			motorRequestMovement(-30, BOTH);
+			motorRequestMovementSpeed(-35, BOTH);
 			test_motor_idx = 0;
 			break;
 		}
@@ -61,7 +61,7 @@ void motorTest()
 	HAL_Delay(2000);
 }
 
-void motorRequestMovement(int8_t speed, uint8_t motor)
+void motorRequestMovementSpeed(int8_t speed, uint8_t motor)
 {
 	uint8_t abs_speed = abs(speed);
 	uint32_t ccr_value = (abs_speed * htim2.Init.Period)/100;
@@ -70,38 +70,36 @@ void motorRequestMovement(int8_t speed, uint8_t motor)
 		case LEFT:
 		{
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr_value);
-			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr_value);
 			if(speed >= 0)
 			{
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
-			}else
+			}else if(speed <= 0)
 			{
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
+			}else
+			{
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
 			}
 			break;
 		}
 		case RIGHT:
 		{
-			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr_value);
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr_value);
 			if(speed >= 0)
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
+			}else if(speed <= 0)
+			{
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 			}else
 			{
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 			}
 			break;
 		}
@@ -110,23 +108,39 @@ void motorRequestMovement(int8_t speed, uint8_t motor)
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr_value);
 			if(speed >= 0)
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
+			}else if(speed <= 0)
+			{
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 			}else
 			{
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
 			}
 	}
 }
 
 void motorProcess()
 {
+	char msg[100];
 	pidApply();
-	int8_t speed_pid_output = hpid.output / PID_MAX * 100;
-	motorRequestMovement(speed_pid_output, BOTH);
+	double pid_perc = (hpid.output * 100) / PID_MAX;
+	int8_t speed_pid_output = (int8_t)(pid_perc);
+	if(hpid.change)
+	{
+		sprintf(msg, "Angle : %d \n\r", hpid.last_error);
+		if(HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY) != HAL_OK)
+		{
+			Error_Handler();
+		}
+	}
+	motorRequestMovementSpeed(speed_pid_output, BOTH);
 }

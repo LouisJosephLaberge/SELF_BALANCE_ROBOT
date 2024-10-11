@@ -64,7 +64,7 @@ bool mpu6050Init(void)
 
 	//Gyroscope configuration
 
-	reg_buff = 8;
+	reg_buff = (MPU6050_FS_SEL_500HZ << MPU_6050_GYRO_CONFIG_FS_SEL);
 
 	if(HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, MPU6050_GYRO_CONFIG_REG, 1, &reg_buff, 1, HAL_MAX_DELAY) != HAL_OK)
 	{
@@ -77,13 +77,54 @@ bool mpu6050Init(void)
 		return false;
 	}
 	HAL_Delay(50);
-	if(reg_buff != 8)
+	if(reg_buff != (MPU6050_FS_SEL_500HZ << MPU_6050_GYRO_CONFIG_FS_SEL))
 	{
 		sprintf(msg,"MPU6050_GYRO_CONFIG NOT SET CORRECTLY\n\r");
 		HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 		return false;
 	}
 	HAL_Delay(50);
+
+//	//Sample rate configuration
+//	reg_buff = 39;
+//	if(HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, MPU6050_SMPRT_DIV_REG, 1, &reg_buff, 1, HAL_MAX_DELAY) != HAL_OK)
+//	{
+//		return false;
+//	}
+//	HAL_Delay(50);
+//	if(HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, MPU6050_SMPRT_DIV_REG, 1, &reg_buff, 1, HAL_MAX_DELAY) != HAL_OK)
+//	{
+//		return false;
+//	}
+//	HAL_Delay(50);
+//	if(reg_buff != 39)
+//	{
+//		sprintf(msg,"MPU6050_SMPRT_DIV_REG NOT SET CORRECTLY\n\r");
+//		HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+//		return false;
+//	}
+//	HAL_Delay(50);
+
+	//DLPF configuration
+	reg_buff = 0;
+	if(HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, MPU6050_CONFIG_REG, 1, &reg_buff, 1, HAL_MAX_DELAY) != HAL_OK)
+	{
+		return false;
+	}
+	HAL_Delay(50);
+	if(HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, MPU6050_CONFIG_REG, 1, &reg_buff, 1, HAL_MAX_DELAY) != HAL_OK)
+	{
+		return false;
+	}
+	HAL_Delay(50);
+	if(reg_buff != 0)
+	{
+		sprintf(msg,"MPU6050_CONFIG_REG NOT SET CORRECTLY\n\r");
+		HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+		return false;
+	}
+	HAL_Delay(50);
+
 	return true;
 }
 
@@ -96,9 +137,9 @@ void mpu6050GetAcc(Acc_Handler* acc_buff)
 		Error_Handler();
 	}
 
-	acc_buff->x = ((uint16_t) reg_buff[0] << 8) | (uint16_t) reg_buff[1];
-	acc_buff->y = ((uint16_t) reg_buff[2] << 8) | (uint16_t) reg_buff[3];
-	acc_buff->z = ((uint16_t) reg_buff[4] << 8) | (uint16_t) reg_buff[5];
+	acc_buff->raw_x = ((uint16_t) reg_buff[0] << 8) | (uint16_t) reg_buff[1];
+	acc_buff->raw_y = ((uint16_t) reg_buff[2] << 8) | (uint16_t) reg_buff[3];
+	acc_buff->raw_z = ((uint16_t) reg_buff[4] << 8) | (uint16_t) reg_buff[5];
 }
 
 void mpu6050GetGyro(Gyro_Handler* gyro_buff)
@@ -110,7 +151,7 @@ void mpu6050GetGyro(Gyro_Handler* gyro_buff)
 		Error_Handler();
 	}
 
-	gyro_buff->x = ((uint16_t) reg_buff[0] << 8) | (uint16_t) reg_buff[1];
-	gyro_buff->y = ((uint16_t) reg_buff[2] << 8) | (uint16_t) reg_buff[3];
-	gyro_buff->z = ((uint16_t) reg_buff[4] << 8) | (uint16_t) reg_buff[5];
+	gyro_buff->raw_x = ((uint16_t) reg_buff[0] << 8) | (uint16_t) reg_buff[1];
+	gyro_buff->raw_y = ((uint16_t) reg_buff[2] << 8) | (uint16_t) reg_buff[3];
+	gyro_buff->raw_z = ((uint16_t) reg_buff[4] << 8) | (uint16_t) reg_buff[5];
 }

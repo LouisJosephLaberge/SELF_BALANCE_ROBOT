@@ -9,40 +9,45 @@
 
 static Filter_Handler hfilter;
 
-int32_t filterGetPitchAngle()
+float filterGetRollAngle()
 {
-	Acc_Handler acc_raw, acc_filtered;
-	Gyro_Handler gyro_raw, gyro_filtered;
+	Acc_Handler acc;
+	Gyro_Handler gyro;
 
-	int32_t pitch_angle = 0;
-	uint32_t dt = HAL_GetTick() - hfilter.timestamp;
+	float roll_angle_total = 0, roll_gyro = 0, roll_acc = 0;
+	float dt_ms = HAL_GetTick() - hfilter.timestamp;
+
 	hfilter.timestamp = HAL_GetTick();
 
-	mpu6050GetGyro(&gyro_raw);
-	mpu6050GetAcc(&acc_raw);
+	mpu6050GetGyro(&gyro);
+	mpu6050GetAcc(&acc);
 
 	//Apply Low-Pass filter for the Accelerometer
-	filterLpAcc(&acc_raw, &acc_filtered);
+	filterLpAcc(&acc);
 
 	//Apply High-Pass filter for the Gyroscope
-	filterHpGyro(&gyro_raw, &gyro_filtered);
+	filterHpGyro(&gyro);
 
-	//Combine both inputs giving 98% weight to gyro according to literature
-	pitch_angle = 0.98 * (hfilter.last_pitch_angle + gyro_filtered.x*dt) + 0.02*acc_filtered.x;
+	//Combine both inputs giving 97% weight to gyro according to literature
+	roll_gyro = gyro.filtered_y*dt_ms/1000;
+	roll_acc = (180*(atan(acc.filtered_x / sqrt(pow(acc.filtered_y, 2) + pow(acc.filtered_z,2)))))/PI;
 
-	return pitch_angle;
+	roll_angle_total = (ALPHA * (hfilter.last_roll_angle + roll_gyro) + (1-ALPHA)*roll_acc);
+	hfilter.last_roll_angle = roll_angle_total;
+
+	return roll_acc;
 }
 
-void filterLpAcc(Acc_Handler* acc_raw, Acc_Handler* acc_filtered)
+void filterLpAcc(Acc_Handler* acc)
 {
-	acc_filtered->x = acc_raw->x / 32.8;
-	acc_filtered->y = acc_raw->y / 32.8;
-	acc_filtered->z = acc_raw->z / 32.8;
+	acc->filtered_x = (float)((acc->raw_x * G) / 8192);
+	acc->filtered_y = (float)((acc->raw_y * G) / 8192);
+	acc->filtered_z = (float)((acc->raw_z * G) / 8192);
 }
 
-void filterHpGyro(Gyro_Handler* gyro_raw, Gyro_Handler* gyro_filtered)
+void filterHpGyro(Gyro_Handler* gyro)
 {
-	gyro_filtered->x = gyro_raw->x * G / 16384;
-	gyro_filtered->y = gyro_raw->y * G / 16384;
-	gyro_filtered->z = gyro_raw->z * G / 16384;
+	gyro->filtered_x = (float)(gyro->raw_x / 65.5);
+	gyro->filtered_y = (float)(gyro->raw_y / 65.5);
+	gyro->filtered_z = (float)(gyro->raw_z / 65.5);
 }
