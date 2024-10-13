@@ -35,7 +35,7 @@ float filterGetRollAngle()
 	roll_angle_total = (ALPHA * (hfilter.last_roll_angle + roll_gyro) + (1-ALPHA)*roll_acc);
 	hfilter.last_roll_angle = roll_angle_total;
 
-	return roll_acc;
+	return roll_angle_total;
 }
 
 void filterLpAcc(Acc_Handler* acc)

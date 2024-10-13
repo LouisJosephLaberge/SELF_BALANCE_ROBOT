@@ -13,7 +13,7 @@
 
 #define ANGLE_REFERENCE_VALUE 0
 #define INTEGRAL_GAIN_MAX 100
-#define PID_MAX 20
+#define PID_MAX 10
 
 typedef struct
 {
