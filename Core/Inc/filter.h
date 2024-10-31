@@ -12,7 +12,7 @@
 #include "mpu6050.h"
 
 #define G 9.81
-#define ALPHA (0.99)
+#define ALPHA (0.90)
 #define GYRO_LP 5
 #define ACC_HP  15
 #define PI (3.141592654)

@@ -1,4 +1,4 @@
-../Core/Src/motor.c:12:6:motorInit	3
-../Core/Src/motor.c:18:6:motorTest	7
-../Core/Src/motor.c:64:6:motorRequestMovementSpeed	11
-../Core/Src/motor.c:131:6:motorProcess	3
+../Core/Src/motor.c:12:6:motorInit	5
+../Core/Src/motor.c:20:6:motorTest	7
+../Core/Src/motor.c:66:6:motorRequestMovementSpeed	11
+../Core/Src/motor.c:129:6:motorProcess	7

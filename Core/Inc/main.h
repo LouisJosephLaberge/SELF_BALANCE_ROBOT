@@ -65,9 +65,12 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define BUTTON_IRQ_Pin GPIO_PIN_3
+#define BUTTON_IRQ_GPIO_Port GPIOA
+#define BUTTON_IRQ_EXTI_IRQn EXTI3_IRQn
 
 /* USER CODE BEGIN Private defines */
-
+#define RESPONSE_TIME_MS	7
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

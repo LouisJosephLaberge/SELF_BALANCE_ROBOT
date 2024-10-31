@@ -11,6 +11,8 @@
 #include "main.h"
 #include "pid.h"
 
+#define MIN_PWM 0
+
 enum Motor
 {
 	LEFT = 0,

@@ -12,7 +12,9 @@ extern Pid_Handler hpid;
 bool motorInit()
 {
 	return HAL_OK == HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1)
-			&& HAL_OK == HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+			&& HAL_OK == HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2)
+			&& HAL_OK == HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3)
+			&& HAL_OK == HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
 }
 
 void motorTest()
@@ -69,61 +71,57 @@ void motorRequestMovementSpeed(int8_t speed, uint8_t motor)
 	{
 		case LEFT:
 		{
-			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr_value);
 			if(speed >= 0)
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr_value);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 0);
 			}else if(speed <= 0)
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr_value);
 			}else
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 0);
 			}
 			break;
 		}
 		case RIGHT:
 		{
-			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr_value);
 			if(speed >= 0)
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, ccr_value);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 0);
 			}else if(speed <= 0)
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, ccr_value);
 			}else
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 0);
 			}
 			break;
 		}
 		case BOTH:
-			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr_value);
-			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr_value);
 			if(speed >= 0)
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr_value);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, ccr_value);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 0);
 			}else if(speed <= 0)
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr_value);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 0);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, ccr_value);
 			}else
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 0);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 0);
 			}
 	}
 }
@@ -132,15 +130,21 @@ void motorProcess()
 {
 	char msg[100];
 	pidApply();
-	double pid_perc = (hpid.output * 100) / PID_MAX;
-	int8_t speed_pid_output = (int8_t)(pid_perc);
+	float pid_perc = (hpid.output * (100 - MIN_PWM)) / PID_MAX;
+	int8_t sign = (pid_perc < 0) ? -1 : 1;
+	int8_t speed_pid_output = abs(pid_perc) < 0.001 ? (sign*MIN_PWM) : (int8_t)pid_perc + (sign*MIN_PWM);
 	if(hpid.change)
 	{
-		sprintf(msg, "Angle : %d \n\r", hpid.last_error);
+		sprintf(msg, "Angle : %d               speed output : %d              Time : %ld \n\r", (int16_t)(100*hpid.last_error), speed_pid_output, (uint32_t)HAL_GetTick());
+		__disable_irq();
 		if(HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY) != HAL_OK)
 		{
 			Error_Handler();
 		}
+		while(huart1.gState == HAL_UART_STATE_BUSY_TX);
+		hpid.change = false;
+		__enable_irq();
 	}
 	motorRequestMovementSpeed(speed_pid_output, BOTH);
 }
+
